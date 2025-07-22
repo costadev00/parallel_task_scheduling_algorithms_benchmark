@@ -1,0 +1,507 @@
+\documentclass[12pt, %
+openright, 
+oneside, %
+%twoside, %TCC: Se seu texto tem mais de 100 páginas, descomente esta linha e comente a anterior
+a4paper,    %
+%english,   %
+brazil]{facom-ufu-abntex2}
+
+\usepackage{graphicx}
+\graphicspath{{figuras/}{pictures/}{images/}{./}} % where to search for the images
+
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+
+\autor{Matheus Costa Monteiro} %TCC
+\data{2025}
+\orientador{Paulo Henrique Ribeiro Gabriel} %TCC
+%\coorientador{Algum?} %TCC
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+
+\titulo{Análise Comparativa de Algoritmos de Escalonamento para o Treinamento de LLM's em Processadores Heterogêneos} %TCC
+
+\hypersetup{pdfkeywords={palavra 1}{palavra 2}{palavra 4}{palavra 4}{palavra 5}} %TCC
+
+\begin{document} 
+\frenchspacing 
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+%\pretextual
+\imprimircapa
+\imprimirfolhaderosto
+
+
+% ---
+% Inserir folha de aprovação
+% ---
+%
+% \includepdf{folhadeaprovacao_final.pdf} %TCC: depois de aprovado o trabalho, descomente esta linha e comente o próximo bloco para incluir scan da folha de aprovação.
+%
+\begin{folhadeaprovacao}
+
+  \begin{center}
+    {\ABNTEXchapterfont\large\imprimirautor}
+
+    \vspace*{\fill}\vspace*{\fill}
+    {\ABNTEXchapterfont\bfseries\Large\imprimirtitulo}
+    \vspace*{\fill}
+    
+    \hspace{.45\textwidth}
+    \begin{minipage}{.5\textwidth}
+        \imprimirpreambulo
+    \end{minipage}%
+    \vspace*{\fill}
+   \end{center}
+    
+   Trabalho aprovado. \imprimirlocal, 01 de novembro de 2016: %TCC:
+
+   \assinatura{\textbf{\imprimirorientador} \\ Orientador}  
+   \assinatura{\textbf{Professor}}% \\ Convidado 1} %TCC:
+   \assinatura{\textbf{Professor}}% \\ Convidado 2} %TCC:
+   %\assinatura{\textbf{Professor} \\ Convidado 3}
+   %\assinatura{\textbf{Professor} \\ Convidado 4}
+      
+   \begin{center}
+    \vspace*{0.5cm}
+    {\large\imprimirlocal}
+    \par
+    {\large\imprimirdata}
+    \vspace*{1cm}
+  \end{center}
+  
+\end{folhadeaprovacao}
+% ---
+
+
+%%As seções dedicatória, agradecimento e epígrafe não são obrigatórias.
+%%Só as mantenha se achar pertinente.
+
+% ---
+% Dedicatória
+% ---
+%\begin{dedicatoria}
+%   \vspace*{\fill}
+%   \centering
+%   \noindent
+%   \textit{Dedico a \lipsum[10]}  %TCC:
+%   \vspace*{\fill}
+%\end{dedicatoria}
+% ---
+
+% ---
+% Agradecimentos
+% ---
+%\begin{agradecimentos}
+%Agradeço a \lipsum[30]. %TCC:
+%\end{agradecimentos}
+% ---
+
+% ---
+% Epígrafe
+% ---
+%\begin{epigrafe}
+%    \vspace*{\fill}
+%	\begin{flushright}
+%		\textit{``Alguma citação que ache conveniente? \lipsum[10]''} %TCC:
+%	\end{flushright}
+%\end{epigrafe}
+% ---
+
+
+
+\begin{resumo} %TCC:
+ Segundo a \citeonline[3.1-3.2]{NBR6028:2003}, o resumo deve ressaltar o
+ objetivo, o método, os resultados e as conclusões do documento. A ordem e a extensão
+ destes itens dependem do tipo de resumo (informativo ou indicativo) e do
+ tratamento que cada item recebe no documento original. O resumo deve ser
+ precedido da referência do documento, com exceção do resumo inserido no
+ próprio documento. (\ldots) As palavras-chave devem figurar logo abaixo do
+ resumo, antecedidas da expressão Palavras-chave:, separadas entre si por
+ ponto e finalizadas também por ponto.
+
+ \vspace{\onelineskip}
+    
+ \noindent
+ \textbf{Palavras-chave}: Até, cinco, palavras-chave, separadas, por, vírgulas. %TCC:
+\end{resumo}
+
+% ---
+% inserir lista de ilustrações
+% ---
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de tabelas
+% ---
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+% ---
+
+
+
+% ---
+% inserir lista de abreviaturas e siglas
+% ---
+\begin{siglas} %TCC:
+  \item[Fig.] Area of the $i^{th}$ component
+  \item[456] Isto é um número
+  \item[123] Isto é outro número
+  \item[Zézão] este é o meu nome
+\end{siglas}
+% ---
+
+%% ---
+%% inserir lista de símbolos, se for adequado ao trabalho. %TCC:
+%% ---
+%\begin{simbolos}
+%  \item[$ \Gamma $] Letra grega Gama
+%  \item[$ \Lambda $] Lambda
+%  \item[$ \zeta $] Letra grega minúscula zeta
+%  \item[$ \in $] Pertence
+%\end{simbolos}
+%% ---
+
+% ---
+% inserir o sumario
+% ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+% ---
+
+
+
+
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+
+% ----------------------------------------------------------
+% Introdução
+% ----------------------------------------------------------
+
+\chapter[Introdução]{Introdução}
+%TCC:
+O crescimento acelerado das aplicações de Inteligência Artificial (IA), em particular dos Modelos de Linguagem Grandes (\textit{Large Language Models}, LLMs), como GPT-4 e LLaMA, tem impulsionado uma demanda sem precedentes por capacidade computacional. Esses modelos, devido à sua complexidade e tamanho expressivos, frequentemente requerem clusters com múltiplos processadores gráficos (GPUs) e recursos computacionais diversos para treinamento eficiente. Diante disso, o desafio do escalonamento e da distribuição eficiente das tarefas em processadores heterogêneos torna-se um fator crítico para otimizar o desempenho, reduzir o custo operacional e maximizar o aproveitamento dos recursos disponíveis.
+
+O escalonamento em sistemas heterogêneos refere-se à distribuição inteligente das tarefas entre processadores que possuem diferentes capacidades computacionais e arquiteturas. Neste contexto, surgem algoritmos específicos, como o HEFT (\textit{Heterogeneous Earliest Finish Time}) e o CPOP (\textit{Critical Path on a Processor}), projetados para otimizar a alocação e execução de tarefas em ambientes computacionais não homogêneos. Entretanto, apesar do comprovado sucesso desses algoritmos em aplicações científicas tradicionais e ambientes HPC (\textit{High Performance Computing}), ainda há lacunas significativas em sua aplicação direta ao treinamento de LLMs.
+
+Neste trabalho de conclusão de curso, será realizada uma análise comparativa detalhada de algoritmos tradicionais e contemporâneos de escalonamento, avaliando-se sua eficácia em cenários realistas de treinamento distribuído de LLMs. Além disso, novas abordagens heurísticas serão consideradas e propostas, visando otimizar ainda mais o uso de clusters heterogêneos, simulando diferentes configurações com GPUs de última geração e hardware diversificado. Os resultados contribuirão não apenas para o avanço acadêmico na área de computação distribuída e IA, mas também trarão benefícios práticos diretos para ambientes comerciais e acadêmicos que frequentemente operam com recursos computacionais heterogêneos, especialmente em plataformas de \textit{cloud computing}.
+
+Assim, este trabalho tem como objetivo central avaliar e propor soluções eficientes para o problema real e atual do escalonamento heterogêneo em treinamento de LLMs, unindo contribuições teóricas a aplicações práticas relevantes para a indústria e a academia.
+
+\chapter{Revisão Bibliográfica}
+O problema de escalonamento de tarefas em sistemas heterogêneos tem sido amplamente estudado nas últimas décadas, dada sua relevância para ambientes de computação de alto desempenho e aplicações sensíveis a tempo, como o treinamento de modelos de aprendizado de máquina em larga escala.
+
+Um dos trabalhos mais influentes na área é o algoritmo HEFT (Heterogeneous Earliest Finish Time), proposto por Topcuoglu et al. \cite{topcuoglu2002performance}, que introduz uma abordagem heurística eficiente para minimizar o tempo de execução total (makespan) em sistemas com processadores de capacidades distintas. O HEFT utiliza um mecanismo de ordenação por prioridade (rank ascendente) e alocação baseada no menor tempo de término estimado (EFT), demonstrando desempenho superior a heurísticas anteriores como o DLS.
+
+O algoritmo DLS (Dynamic Level Scheduling), por sua vez, foi uma das primeiras heurísticas a lidar explicitamente com a heterogeneidade de recursos computacionais, introduzindo o conceito de nível dinâmico como critério de priorização. Embora mais custoso computacionalmente, o DLS ainda é considerado um benchmark clássico na área \cite{hagras2003static}.
+
+Para superar limitações do HEFT, variantes foram desenvolvidas. O HEFT-LA (Lookahead) se destaca por antecipar o impacto de decisões atuais sobre o escalonamento futuro, considerando não apenas o EFT imediato, mas também os efeitos esperados em tarefas sucessoras \cite{bittencourt2010dag}. Essa abordagem proporciona melhor balanceamento de carga e menor makespan em certos cenários, embora com maior custo computacional.
+
+Mais recentemente, Arabnejad e Barbosa propuseram o PEFT (Predict Earliest Finish Time), que mantém a mesma complexidade do HEFT, mas utiliza uma Tabela de Custos Otimistas (OCT) para prever, de forma mais precisa, o tempo de execução até o final do grafo \cite{arabnejad2013list}. O PEFT mostrou-se competitivo, superando HEFT e Lookahead em muitos cenários, especialmente em grafos grandes.
+
+Aplicações desses algoritmos em contextos modernos, como o treinamento de LLMs, começam a surgir. Mack et al. \cite{mack2021performant} estenderam o HEFT para considerar múltiplos objetivos em sistemas heterogêneos embarcados. Yan et al. \cite{yan2024flashflex} propuseram o sistema FlashFlex, que aplica estratégias de particionamento de grafos e alocação hierárquica para distribuir etapas de treinamento de LLMs em clusters com diferentes tipos de GPU, mostrando que abordagens inteligentes de escalonamento podem aumentar significativamente o throughput mesmo em ambientes heterogêneos.
+
+Portanto, a literatura atual oferece uma base sólida de algoritmos clássicos e contemporâneos que servem como ponto de partida para o estudo e aprimoramento de técnicas de escalonamento voltadas ao treinamento eficiente de modelos de linguagem de grande porte.
+
+
+\chapter{Desenvolvimento}
+%TCC:
+O treinamento distribuído de modelos de linguagem de grande porte (LLMs) em clusters heterogêneos envolve a divisão do trabalho de treinamento (forward, backward e otimização) em múltiplas tarefas interdependentes, que devem ser alocadas a recursos de hardware distintos (GPUs/CPUs com diferentes capacidades). Escalonar eficientemente essas tarefas é crucial para minimizar o tempo total de treinamento (makespan) e maximizar o uso dos recursos disponíveis. Entretanto, encontrar o escalonamento ótimo é um problema NP-difícil, especialmente em ambientes heterogêneos onde cada recurso tem desempenho distinto. Por isso, diversas heurísticas de escalonamento têm sido propostas. Este seção foca em quatro algoritmos clássicos de escalonamento estático de \textit{workflows} (DAGs de tarefas) em sistemas heterogêneos – DLS, HEFT, Lookahead e PEFT – discutindo seu funcionamento, complexidade e aplicabilidade prática no contexto de treinamento distribuído de LLMs. Em seguida, comparam-se as características de desempenho desses algoritmos (makespan, balanceamento de carga, custos de comunicação, escalabilidade, eficiência energética e custo computacional), e propõem-se métricas adicionais relevantes para cenários de \textit{deep learning} em nuvem (como \textit{throughput}, uso de recursos, custo por token e eficiência energética). Referências a trabalhos recentes e casos de uso ilustram a aplicação desses algoritmos em contextos similares (e.g. clusters de GPUs heterogêneas).
+
+\section{Algoritmos Selecionados}
+Neste trabalho foram selecionados quatro algoritmos para a análise comparativa—Dynamic Level Scheduling (DLS), Heterogeneous Earliest Finish Time (HEFT), Lookahead Scheduling (HEFT-LA) e Predict Earliest Finish Time (PEFT)—devido às suas características complementares e relevância técnica consolidada na literatura sobre escalonamento heterogêneo.
+
+O DLS foi escolhido por ser uma heurística clássica de escalonamento, pioneira na consideração dinâmica das prioridades das tarefas, servindo como baseline tradicional para avaliar soluções mais modernas. O algoritmo HEFT destaca-se por sua ampla aceitação na comunidade acadêmica, simplicidade conceitual, eficiência computacional e bons resultados práticos, sendo frequentemente utilizado como referência em trabalhos de escalonamento heterogêneo.
+
+O Lookahead Scheduling, uma variante avançada do HEFT, foi incluído por sua capacidade de considerar impactos futuros das decisões de escalonamento, potencialmente reduzindo gargalos que ocorrem quando o algoritmo age de forma localmente ótima, mas globalmente subótima. Finalmente, o algoritmo PEFT foi selecionado por combinar melhorias substanciais no desempenho global—sem elevar a complexidade computacional do HEFT—, utilizando uma abordagem otimista na estimativa dos tempos de execução, oferecendo, assim, resultados promissores em ambientes heterogêneos de larga escala.
+
+Dessa forma, a escolha desses algoritmos busca proporcionar uma comparação robusta e abrangente, representando diferentes abordagens—desde soluções clássicas até heurísticas modernas e mais sofisticadas—possibilitando uma análise profunda e detalhada sobre sua aplicabilidade e desempenho no contexto específico do treinamento distribuído de modelos de linguagem grandes (LLMs).
+\subsection{Dynamic Level Scheduling (DLS)} 
+O algoritmo Dynamic Level Scheduling (DLS) é uma heurística clássica de escalonamento estático por lista (\textit{list scheduling}) proposta para sistemas heterogêneos. A ideia central do DLS é utilizar, a cada passo, uma medida de prioridade chamada nível dinâmico (dynamic level, DL) de cada tarefa, definida como a diferença entre o nível estático da tarefa (uma estimativa do tempo restante até o final do grafo, partindo daquela tarefa) e o seu tempo mais cedo de início no processador considerado \cite{hagras2003static} Em cada iteração do escalonamento, o par tarefa-processador com o maior valor de DL é selecionado para escalonamento \cite{hagras2003static}  Intuitivamente, essa abordagem equilibra a prioridade estática de longo prazo de uma tarefa (por ex., tarefas críticas próximas à raiz do grafo) com o estado dinâmico de disponibilidade dos processadores. Diferentemente de heurísticas gulosas puras por tempo de início (como ETF, Earliest Time First), que sempre escolhem a tarefa com menor tempo de início estimado disponível \cite{hagras2003static}  o DLS tende a agendar primeiro tarefas de nível estático mais alto (ou seja, mais críticas no caminho crítico) no início do escalonamento, e gradualmente passa a priorizar tarefas de início mais imediato conforme se aproxima do final do grafo \cite{hagras2003static}. Esse mecanismo híbrido visa reduzir o tempo total considerando tanto a estrutura global do DAG quanto as condições instantâneas de cada processador.
+
+Do ponto de vista de complexidade, o DLS realiza, a cada inserção de tarefa, uma busca pelo melhor processador considerando o DL de cada tarefa pronta. Sua complexidade de tempo é relativamente alta – em geral $O(p \cdot v^3)$, sendo $v$ o número de tarefas e $p$ o número de processadores \cite{hagras2003static}.  Versões posteriores e generalizadas do DLS procuram melhorar essa complexidade, mas em comparação com algoritmos mais simples, o DLS pode se tornar computacionalmente custoso para grafos muito grandes. Ainda assim, o DLS foi um dos primeiros algoritmos capazes de lidar com heterogeneidade de forma eficaz, e serve de base para várias outras heurísticas. Ele não realiza duplicação de tarefas e busca minimizar explicitamente o makespan. Em estudos comparativos, o DLS apresentou desempenho competitivo, embora tenha sido superado por algoritmos mais recentes em muitos cenários \cite{baskiyar2005scheduling}.  Por exemplo, \cite{topcuoglu2002performance}  reportaram que o HEFT (discutido adiante) produz escalonamentos com tempo de conclusão menor que o DLS em média \cite{baskiyar2005scheduling}.
+
+No contexto de treinamento de LLMs distribuído, o DLS poderia ser aplicado modelando as operações do treinamento (por exemplo, computação de \textit{forward}/\textit{backward} de diferentes camadas do modelo, sincronização de gradientes, etc.) como um grafo acíclico de tarefas. Seu critério de seleção (DL) levaria em conta tanto a criticidade de certas etapas (e.g., atualizar parâmetros principais no otimizador) quanto a disponibilidade imediata de cada GPU. Entretanto, devido à sua alta complexidade, aplicar DLS diretamente em um grafo muito fino (por exemplo, cada operação de rede neural como um nó) seria inviável. Uma possibilidade prática é usar DLS em um nível mais coarsed-grained – por exemplo, para escalonar blocos inteiros de camadas ou etapas macro do pipeline de treinamento entre GPUs heterogêneas.
+
+\subsection{Heterogeneous Earliest Finish Time (HEFT)}
+O algoritmo Heterogeneous Earliest Finish Time (HEFT)\cite{baskiyar2005scheduling}  é uma das heurísticas de escalonamento mais
+influentes para ambientes heterogêneos. Proposto por \cite{topcuoglu2002performance}, o HEFT segue uma
+abordagem de duas fases: primeiro determina uma ordem de prioridade entre as tarefas, e depois
+aloca cada tarefa a um processador apropriado. Na fase de priorização, calcula-se para cada tarefa um
+valor conhecido como rank ascendente (upward rank), que representa o comprimento do maior
+caminho (em tempo) desde aquela tarefa até a tarefa final do grafo, considerando tempos médios de computação e comunicação. \cite{sandokji2019communication}  Essencialmente, o rank ascendente é uma estimativa da “urgência” da
+tarefa dentro do fluxo de trabalho – tarefas críticas com longas cadeias sucessoras terão rank maior. Em
+seguida, todas as tarefas são ordenadas descrescentemente por esse rank.
+Na fase de seleção de processador, o HEFT itera sobre as tarefas nessa ordem de prioridade e, para
+cada tarefa, escolhe o processador que lhe oferece o menor tempo de término estimado (EFT, Earliest
+Finish Time), dado o estado atual de ocupação de cada recurso\cite{baskiyar2005scheduling}.  Importante destacar que o HEFT
+utiliza uma política de inserção de tarefas em lacunas de tempo ocioso: se uma tarefa cabe em um
+intervalo livre entre duas tarefas já escalonadas em um processador (respeitando precedências), ela
+pode ser inserida ali em vez de ao final da fila \cite{sandokji2019communication}. Esse mecanismo de inserção melhora o
+aproveitamento do processador e contribui para reduzir o tempo ocioso.
+A complexidade de tempo do HEFT é $O(v^2 \cdot p)$\cite{sandokji2019communication},  bem menor que a do DLS para grafos
+grandes, o que torna o HEFT mais escalável. Apesar de sua simplicidade, o HEFT costuma produzir
+cronogramas de boa qualidade – de fato, \cite{topcuoglu2002performance} demonstraram experimentalmente que o
+HEFT superou algoritmos anteriores (como DLS, Mapping Heuristic, Longest Path, etc.) em diversos
+cenários, obtendo menores makespans em até 8–52\% dependendo do caso\cite{sandokji2019communication}.  O HEFT ganhou ampla
+aceitação como baseline em escalonamento de workflows heterogêneos.
+
+No contexto de LLMs, podemos interpretar as diferentes partes do treinamento (como computação de
+distintas camadas ou etapas de pipeline) como tarefas de um DAG. O HEFT, ao levar em conta tanto
+tempos de processamento quanto de comunicação, pode alocar, por exemplo, camadas maiores para
+GPUs mais rápidas ou com mais memória (minimizando o EFT), enquanto envia camadas menos críticas
+a GPUs secundárias. Ele tende a equilibrar bem a utilização ao preencher “bolsas” de tempo livre em
+GPUs entre sincronizações – análogo a preencher o tempo de uma GPU com outras tarefas enquanto
+ela espera dados. No entanto, um desafio é que o HEFT assume conhecimento prévio dos tempos de
+cada tarefa em cada processador. Em um treinamento distribuído real, pode ser complexo estimar com
+precisão o tempo de, digamos, uma etapa de backpropagation em diferentes GPUs (especialmente
+considerando efeitos de comunicação entre nós). Trabalhos recentes têm estendido ideias do HEFT para
+cenários de treino/executação em arquiteturas heterogêneas – por exemplo, \cite{mack2021performant}
+adaptaram o HEFT para escalonamento dinâmico em tempo de execução em sistemas heterogêneos
+on-chip, incorporando métricas de energia e potência além do tempo\cite{mack2021performant}. Isso indica que variantes
+do HEFT podem inspirar escalonadores energéticamente eficientes para clusters de GPUs variadas.
+
+\subsection{Lookahead Scheduling (\textit{HEFT-LA})}
+O Lookahead Scheduling – às vezes referido como HEFT-LA (Lookahead variant of HEFT) – foi proposto
+por \cite{bittencourt2010dag} como uma melhoria sobre o HEFT tradicional. A motivação é mitigar uma
+limitação do HEFT: ele toma decisões baseadas apenas na tarefa atual, usando informações médias, o
+que pode levar a escolhas “gananciosas” locais que não são ótimas globalmente. O Lookahead introduz
+um mecanismo de pré-visualização (lookahead) das tarefas sucessoras ao alocar a tarefa corrente,
+visando decisões que otimizem o acabamento de todo o grafo, e não apenas da tarefa individual\cite{bittencourt2010dag}. Em outras palavras, ao invés de avaliar apenas o EFT imediato de uma tarefa em cada processador, o
+algoritmo avalia também as implicações futuras – por exemplo, como ficará o tempo de término das
+tarefas seguintes (filhas) dependendo de onde a atual for executada. Para isso, o Lookahead calcula,
+para cada tarefa, uma estimativa do tempo médio de execução e comunicação em cada tipo de
+processador, similar ao rank do HEFT, mas incorpora um “mecanismo de antecipação” dos custos das
+subtarefas seguintes\cite{bittencourt2010dag}. Essa capacidade de antever efeitos cascata permite ao escalonador evitar
+escolhas localmente ótimas que possam, por exemplo, sobrecarregar um processador rápido com
+muitas tarefas críticas (criando gargalos mais à frente).
+
+Em termos de funcionamento, o Lookahead mantém as duas fases (priorização e alocação) do HEFT. A
+ordenação das tarefas geralmente permanece baseada no rank ascendente padrão. A diferença está na
+fase de seleção de processador: o algoritmo considera não só o EFT daquela tarefa, mas também um
+custo “futuro” estimado. \cite{bittencourt2010dag} descrevem que o Lookahead calcula, para cada tarefa e cada
+processador, uma medida que combina o tempo de término daquela tarefa ali mais uma estimativa do
+tempo de execução dos filhos restantes desse nó (como se o nó atual tivesse sido alocado naquele
+processador)\cite{bittencourt2010dag}. Assim, escolhe-se o processador que minimiza esse custo composto, garantindo o
+menor impacto possível no restante do workflow.
+
+O preço a pagar por essa melhoria de qualidade de escalonamento é um \textbf{custo computacional
+significativamente maior}. O algoritmo Lookahead realiza análises combinatórias mais complexas, o
+que resulta em complexidade de tempo bem superior à do HEFT. Estudos indicam que sua
+complexidade é da ordem de $O(v^3 \cdot p^2)$ em certos cenários, aproximando-se de\textbf{ complexidade
+quadrática de ordem quatro (quartic)} no número de tarefas no pior caso\cite{niyom2016fast} \cite{arabnejad2013list}.  Em outras palavras,
+embora não haja um consenso simples, frequentemente cita-se que o Lookahead possui complexidade
+polinomial de grau 4 em $v$. Isso o torna menos viável para grafos muito grandes (centenas ou
+milhares de tarefas) sem alguma otimização adicional.
+
+Do ponto de vista de desempenho, o Lookahead de fato consegue melhorar o escalonamento em
+relação ao HEFT em muitos casos, especialmente em cenários onde as heterogeneidades de
+processamento e comunicação são acentuadas. Por exemplo, em experimentos com grafos de até 100
+tarefas, o algoritmo Lookahead obteve makespans menores que o HEFT tradicional e que outros
+concorrentes, aproximando-se bastante do ótimo em diversos casos\cite{arabnejad2013list}. Além disso, um estudo
+reporta que o Lookahead tende a produzir um melhor balanceamento de carga entre os processadores
+do que o PEFT (descrito adiante), justamente por distribuir algumas tarefas de forma mais antecipativa
+mesmo que isso não reduza imediatamente o tempo daquela tarefa\cite{sandokji2019communication}.  Esse melhor balanceamento
+reflete em maior eficiência de utilização global dos recursos. Contudo, conforme o tamanho do DAG
+cresce, os ganhos de Lookahead sobre algoritmos quadráticos (como HEFT e PEFT) tendem a diminuir,
+ao passo que o custo de execução do escalonador aumenta. \cite{arabnejad2013list} observaram que
+para grafos maiores (centenas de nós), o algoritmo PEFT conseguia igualar ou superar o Lookahead em
+qualidade de escalonamento, apesar de sua complexidade menor, tornando o Lookahead menos
+atraente nesses cenários maiores\cite{arabnejad2013list}
+
+Em aplicações de treinamento de LLMs, o Lookahead seria conceitualmente útil se quisermos explorar
+ao máximo a flexibilidade de alocar partes do modelo em diferentes GPUs heterogêneas. Por exemplo,
+imagine decidir em qual GPU colocar um determinado conjunto de camadas: uma GPU mais antiga
+pode terminar essa parte ligeiramente mais devagar, mas talvez facilite que as próximas camadas
+(sucessoras) sejam já computadas em outra GPU sem esperar pela liberação de uma GPU mais potente.
+O Lookahead poderia identificar essa situação e decidir por essa alocação “antecipativa” visando o
+melhor throughput global, em vez de insistir que todas as partes rodem na GPU mais rápida (o que
+poderia provocar filas de espera nela). Entretanto, implementar esse algoritmo no contexto de
+treinamento distribuído requer modelar cuidadosamente o DAG de treinamento (incluindo
+comunicações de gradientes, sincronizações de parâmetros, etc.) e pode incorrer em alto overhead de
+planejamento. Na prática, devido ao seu custo, o Lookahead puro não é muito mencionado em
+sistemas de ML; em vez disso, ideias de lookahead são incorporadas de forma heurística em frameworks
+(por exemplo, algumas abordagens de paralelismo pipeline utilizam heurísticas para balancear etapas
+considerando passos futuros).
+
+\subsection{Predict Earliest Finish Time (PEFT)}
+O algoritmo Predict Earliest Finish Time (PEFT) foi proposto por Arabnejad e Barbosa (2014) como uma
+nova heurística de escalonamento por lista que aprimora o HEFT sem aumentar a complexidade
+algorítmica\cite{arabnejad2013list}. O PEFT introduz o conceito de \textbf{Tabela de Custos Otimistas} (OCT, Optimistic Cost Table):
+antes do escalonamento, é pré-computada para cada aresta (dependência) do DAG uma estimativa
+otimista do menor tempo possível para completar do nó atual até o final, considerando todas as
+combinações de processadores\cite{arabnejad2013list}.. Em outras palavras, a OCT fornece, para cada tarefa $T_i$ em
+cada processador $P_j$, uma estimativa otimista de quão cedo $T_i$ poderia terminar se todas as
+decisões futuras também fossem ideais. Com base nisso, define-se um novo valor de prioridade, o rank-oct , que é similar ao rank ascendente do HEFT, mas incorporando esses custos otimistas obtidos
+da tabela\cite{arabnejad2013list}.
+O escalonamento pelo PEFT então segue uma lógica parecida com o HEFT: ordena-se as tarefas
+descrescente por $rank_{oct}$ e insere-se, iterativamente, cada tarefa no processador que minimize seu
+tempo de término previsto. A grande diferença é que, ao invés de usar tempos médios e tomar
+decisões míopes, o PEFT usa a informação da tabela otimista para guiar escolhas que tendem ao ótimo
+global. Assim, ele pode deliberadamente não escolher o processador de término absolutamente mais
+rápido para uma tarefa, se alocar essa tarefa em outro recurso resultar em um ganho geral para o
+makespan do grafo. Por exemplo, \cite{arabnejad2013list} demonstram um caso em que o PEFT atribui uma
+tarefa $T_1$ a um processador $P_1$ que não é aquele de término mais rápido para $T_1$ em si,
+porque essa decisão libera um processador mais veloz para tarefas subsequentes críticas, reduzindo o
+tempo total do DAG – com isso, $T_1$ termina um pouco mais tarde localmente, mas o makespan
+global fica menor\cite{arabnejad2013list}. . Esse comportamento “não-guloso” distingue o PEFT.
+Uma vantagem importante do PEFT é que sua \textbf{complexidade permanece $O(v^2 \cdot p)$,} igual à do
+HEFT\cite{arabnejad2013list}. . O cálculo da OCT adiciona um overhead linear nas arestas (proporcional a $p(e+v)$, com $e$
+arestas)\cite{arabnejad2013list}, mas isso não altera a ordem assintótica dominante. Portanto, o PEFT oferece uma melhora
+de desempenho de escalonamento sem sacrificar escalabilidade computacional.
+Nos resultados reportados, o PEFT efetivamente superou tanto o HEFT quanto o Lookahead em muitos
+cenários. Arabnejad e Barbosa mostram que o PEFT produz schedules com makespan menor (i.e., SLR –
+Schedule Length Ratio – mais baixo) do que HEFT na maioria dos casos, mantendo também alta robustez
+(medida de slack semelhante à do HEFT)\cite{arabnejad2013list}.  Para grafos pequenos (até 100 tarefas), o PEFT tem
+desempenho semelhante ao do Lookahead, e para grafos maiores ele se saiu melhor, justamente
+porque o Lookahead não consegue escalar tão bem\cite{arabnejad2013list}.  Em aproximadamente 72\% das execuções testadas, o PEFT obteve o melhor escalonamento dentre os algoritmos comparados\cite{arabnejad2013list}. Além disso, o
+PEFT manteve uma boa distribuição de carga e eficiência, aproximando-se da qualidade de algoritmos
+mais complexos (porém de complexidade quadrática apenas)\cite{arabnejad2013list}.
+
+No contexto de treinamento distribuído de LLMs, o PEFT seria uma escolha promissora para escalonar
+tarefas se pudermos modelar o treinamento como um DAG estático antes da execução. Por exemplo,
+considere um pipeline de treinamento com várias etapas (pré-processamento de dados, cálculo do
+grafo forward para diferentes partes do modelo, sincronização de gradientes, atualização de
+parâmetros, etc.) distribuídas entre GPUs com diferentes capacidades. O PEFT, alimentado com uma
+tabela de custos otimistas (que poderiam ser obtidos, por exemplo, medindo latências de partes do
+modelo em cada tipo de GPU), poderia gerar um plano de execução que minimiza o tempo total por
+passo de treino. Uma característica útil é que o PEFT provavelmente evitaria congestionar sempre a
+GPU mais poderosa com todas as tarefas: se a tabela indicar que é melhor colocar algumas camadas
+numa GPU secundária para que a GPU principal possa em paralelo processar outra parte crítica, o
+algoritmo tomará essa decisão. Assim, espera-se um bom balanceamento entre utilizar GPUs topo de
+linha para as partes realmente mais pesadas, e aproveitar GPUs mais lentas para trabalho em paralelo
+nas partes menos críticas. Em termos práticos, há desafios – por exemplo, a predição otimista pode não
+refletir perfeitamente o comportamento real em tempo de execução, especialmente sob contensão de
+rede ou variações – mas técnicas de PEFT poderiam ser incorporadas em orchestradores de
+treinamento. De fato, a literatura recente em sistemas de ML distribuído já esboça aproximações disso:
+por exemplo, o sistema \textbf{FlashFlex} \cite{yan2024flashflex} formaliza a alocação de partes do treinamento de
+LLMs heterogeneamente como um problema de otimização em grafo e utiliza um particionamento
+hierárquico do grafo do modelo para distribuir as computações de forma quase ótima\cite{yan2024flashflex}. . Embora
+não seja exatamente o PEFT, o espírito é semelhante – usar uma visão global (neste caso, um
+particionamento do grafo de compute do LLM) para alocar cargas em diferentes GPUs de modo a
+maximizar a utilização heterogênea. Os resultados do FlashFlex mostram que com um bom
+escalonamento, é possível treinar LLMs em clusters heterogêneos obtendo throughput comparável a
+clusters homogêneos de mesma soma de FLOPs\cite{yan2024flashflex}
+, ilustrando o potencial de técnicas de
+escalonamento inteligente nesse domínio.
+
+\begin{figure}[!ht]
+    \centering
+	\includegraphics[width=0.55\linewidth]{imagemExemplo.pdf}
+	\caption[Isso é o que aparece no sumário]{Imagem de exemplo.}
+	\label{fig:graficosVariandoTamanhoRede}
+\end{figure}
+
+\chapter{Experimentos}
+Aqui estarão os resultados dos experimentos no simulador
+
+%TCC:
+%TCC:
+%TCC:
+%TCC:
+
+% ---
+% Conclusão
+% ---
+\chapter[Conclusão]{Conclusão}
+%TCC:
+E daí?
+
+
+
+
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\bibliography{abntex2-modelo-references}
+
+
+%% ----------------------------------------------------------
+%% Apêndices TCC: só mantenha se for pertinente.
+%% ----------------------------------------------------------
+
+% ---
+% Inicia os apêndices
+% ---
+\begin{apendicesenv}
+
+% Imprime uma página indicando o início dos apêndices
+\partapendices
+
+% ----------------------------------------------------------
+\chapter{Quisque libero justo}
+% ----------------------------------------------------------
+
+\lipsum[50]
+
+% ----------------------------------------------------------
+\chapter{Coisas que fiz e que achei interessante mas não tanto para entrar no corpo do texto}
+% ----------------------------------------------------------
+\lipsum[55-57]
+
+\end{apendicesenv}
+% ---
+
+
+% ----------------------------------------------------------
+% Anexos %TCC: so mantenha se pertinente.
+% ----------------------------------------------------------
+
+% ---
+% Inicia os anexos
+% ---
+\begin{anexosenv}
+
+% Imprime uma página indicando o início dos anexos
+\partanexos
+
+% ---
+\chapter{Eu sempre quis aprender latim}
+% ---
+\lipsum[30]
+
+% ---
+\chapter{Coisas que eu não fiz mas que achei interessante o suficiente para colocar aqui}
+% ---
+
+\lipsum[31]
+
+% ---
+\chapter{Fusce facilisis lacinia dui}
+% ---
+
+\lipsum[32]
+
+\end{anexosenv}
+
+%---------------------------------------------------------------------
+% INDICE REMISSIVO
+%---------------------------------------------------------------------
+
+\printindex
+
+
+
+\end{document}
